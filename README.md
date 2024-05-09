@@ -4,7 +4,13 @@ Data analytics for all Buidl Guidl stream contracts deployed on Ethereum and Opt
 
 ### Features
 
-- All builders accross all streams sorted by total collected
-- Most recent 10 stream pulls across all stream cohorts
-- Top 10 biggest stream pulls?
-- Lowest 10 stream pulls?
+1. All builders accross all streams sorted by total collected
+2. Most recent stream pulls across all stream cohorts
+3. Most recent new Builder streams
+4. Pie chart of stream distribution by cohort (contract)
+
+### Ideas
+
+- Show amount of ETH in each contract
+- Dedicated page for visual charts of total withdraws per builder and total per contract
+- Data on what month of year has most builders added?

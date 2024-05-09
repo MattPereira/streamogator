@@ -8,6 +8,7 @@ ponder.on("YourContract:AddBuilder", async ({ event, context }) => {
   await Builder.create({
     id: event.args.to,
     data: {
+      date: event.block.timestamp,
       streamCap: event.args.amount,
       totalCollected: 0n,
     },
@@ -34,9 +35,9 @@ ponder.on("YourContract:UpdateBuilder", async ({ event, context }) => {
 ponder.on("YourContract:Withdraw", async ({ event, context }) => {
   console.log(event.args);
 
-  const { Withdraw } = context.db;
+  const { Withdrawal } = context.db;
 
-  await Withdraw.create({
+  await Withdrawal.create({
     id: event.transaction.hash,
     data: {
       to: event.args.to,

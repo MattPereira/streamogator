@@ -3,13 +3,14 @@ import { createSchema } from "@ponder/core";
 export default createSchema((p) => ({
   Builder: p.createTable({
     id: p.hex(), // the EOA address
-    streamCap: p.bigint(),
+    date: p.bigint(), // event.block.timestamp
+    streamCap: p.bigint(), // in ETH
     totalCollected: p.bigint(), // updated every withdraw event
   }),
-  Withdraw: p.createTable({
+  Withdrawal: p.createTable({
     id: p.hex(), // the tx hash
-    to: p.hex().references("Builder.id"),
-    amount: p.bigint(), // of ETH
     date: p.bigint(), // event.block.timestamp
+    to: p.hex().references("Builder.id"),
+    amount: p.bigint(), // in ETH
   }),
 }));
