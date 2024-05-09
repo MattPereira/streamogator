@@ -26,21 +26,24 @@ export const BuilderTotals = () => {
 
   console.log("data", data);
   return (
-    <div>
-      <h3 className="text-center text-2xl font-bold">Builder Totals</h3>
-      <div className="overflow-x-auto w-full">
+    <div className="">
+      <h3 className="text-center text-3xl mb-3 font-cubano">Builder Totals</h3>
+      <div className="overflow-x-auto w-full border border-neutral-600 rounded-xl">
         <table className="table text-lg">
           <thead>
-            <tr className="text-xl">
-              <th>Buidler</th>
-              <th>Start</th>
+            <tr className="text-xl text-primary border-neutral-600 border-b font-cubano font-normal">
+              <th className="font-normal">Buidler</th>
+              <th className="font-normal">Start</th>
               {/* <th>Cap</th> */}
-              <th>Amount</th>
+              <th className="font-normal">Amount</th>
             </tr>
           </thead>
           <tbody>
-            {data.builders.items.map((builder: any) => (
-              <tr key={builder.id}>
+            {data.builders.items.map((builder: any, idx: number) => (
+              <tr
+                key={builder.id}
+                className={` ${idx !== data.builders.items.length - 1 && "border-neutral-600 border-b"}`}
+              >
                 <td>
                   <Address size="xl" address={builder.id} />
                 </td>

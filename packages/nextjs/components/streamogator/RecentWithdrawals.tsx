@@ -25,12 +25,12 @@ export const RecentWithdrawals = () => {
   console.log("data", data);
   return (
     <div>
-      <h3 className="text-center text-2xl font-bold">Recent Withdrawals</h3>
+      <h3 className="text-center text-3xl font-cubano mb-3">Recent Withdrawals</h3>
 
-      <div className="overflow-x-auto w-full">
+      <div className="overflow-x-auto w-full border border-neutral-600 rounded-xl">
         <table className="table text-lg">
           <thead>
-            <tr className="text-xl">
+            <tr className="text-xl text-primary border-neutral-600 border-b">
               <th>Buidler</th>
               <th>Date</th>
               {/* <th>Tx</th> */}
@@ -38,8 +38,11 @@ export const RecentWithdrawals = () => {
             </tr>
           </thead>
           <tbody>
-            {data.withdrawals.items.map((withdrawal: any) => (
-              <tr key={withdrawal.id}>
+            {data.withdrawals.items.map((withdrawal: any, idx: number) => (
+              <tr
+                key={withdrawal.id}
+                className={` ${idx !== data.withdrawals.items.length - 1 && "border-neutral-600 border-b"}`}
+              >
                 <td>
                   <Address size="xl" address={withdrawal.to} />
                 </td>
