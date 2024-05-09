@@ -26,6 +26,7 @@
     "next:format": "yarn workspace @se-2/nextjs format",
     "next:lint": "yarn workspace @se-2/nextjs lint",
     "next:serve": "yarn workspace @se-2/nextjs serve",
+    "ponder:dev": "yarn workspace @se-2/ponder dev",
     "precommit": "lint-staged",
     "prepare": "install-self-peers -- --ignore-scripts",
     "start": "yarn workspace @se-2/nextjs dev",
