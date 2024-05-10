@@ -37,4 +37,5 @@ Top 10 list for these categories. UI is a looping carousel.
 ### Other Ideas
 
 - Show amount of ETH in each contract
-- Data on what month of year has most builders added?
+- Rank withdrawals by gas cost and total gas spent for each builder
+- Click on a row to get the full details for transaction or builder in a modal pop up

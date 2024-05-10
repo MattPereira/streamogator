@@ -9,6 +9,7 @@ ponder.on("YourContract:AddBuilder", async ({ event, context }) => {
     id: event.args.to,
     data: {
       date: event.block.timestamp,
+      contract: event.transaction.from,
       streamCap: event.args.amount,
       totalWithdrawals: 0n,
       withdrawalsCount: 0,
@@ -34,16 +35,19 @@ ponder.on("YourContract:UpdateBuilder", async ({ event, context }) => {
 });
 
 ponder.on("YourContract:Withdraw", async ({ event, context }) => {
-  console.log(event.args);
+  console.log(event.transaction.hash);
 
   const { Withdrawal } = context.db;
 
   await Withdrawal.create({
     id: event.transaction.hash,
     data: {
+      date: event.block.timestamp,
       to: event.args.to,
       amount: event.args.amount,
-      date: event.block.timestamp,
+      gas: event.transaction.gas,
+      contract: event.transaction.from,
+      network: context.network.chainId,
     },
   });
 

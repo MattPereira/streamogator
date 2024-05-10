@@ -25,7 +25,7 @@ const QUERY = gql`
 const BuilderTotals: NextPage = () => {
   const { data, loading, error } = useQuery(QUERY);
 
-  if (error) return <div className="text-red-500">Error : {error.message}</div>;
+  if (error) return <div className="text-red-500 text-center my-10">Error : {error.message}</div>;
 
   return (
     <section className="flex justify-center">

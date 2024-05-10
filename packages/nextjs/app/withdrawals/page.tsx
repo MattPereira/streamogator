@@ -24,7 +24,8 @@ const QUERY = gql`
 const Withdrawals: NextPage = () => {
   const { data, loading, error } = useQuery(QUERY);
 
-  if (error) return <div className="text-red-500">Error : {error.message}</div>;
+  if (error) return <div className="text-red-500 text-center my-10">Error : {error.message}</div>;
+
   return (
     <section className="flex justify-center">
       <div className="flex flex-col justify-center items-center gap-14 my-14">
@@ -41,7 +42,7 @@ const Withdrawals: NextPage = () => {
           </div>
         ) : (
           <Table
-            headers={["Builder", "Date", "Amount", "Transaction", "Contract"]}
+            headers={["Builder", "Date", "Amount", "Transaction", "Contract", "Gas Spent"]}
             rows={data.withdrawals.items.map((withdrawal: any, idx: number) => [
               <Address size="xl" address={withdrawal.to} key={idx} />,
               formatDate(withdrawal.date),
