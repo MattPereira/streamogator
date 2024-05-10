@@ -10,12 +10,13 @@ ponder.on("YourContract:AddBuilder", async ({ event, context }) => {
     data: {
       date: event.block.timestamp,
       streamCap: event.args.amount,
-      totalCollected: 0n,
+      totalWithdrawals: 0n,
+      withdrawalsCount: 0,
     },
   });
 });
 
-// ponder.on("YourContract:OwnershipTransferred", async ({ event, context }) => {
+// ponder.on("YourContract:OwnershipTransferred", async ({ evesnt, context }) => {
 //   console.log(event.args);
 // });
 
@@ -56,7 +57,8 @@ ponder.on("YourContract:Withdraw", async ({ event, context }) => {
     await Builder.update({
       id: event.args.to,
       data: {
-        totalCollected: builder.totalCollected + event.args.amount,
+        totalWithdrawals: builder.totalWithdrawals + event.args.amount,
+        withdrawalsCount: builder.withdrawalsCount + 1,
       },
     });
   }

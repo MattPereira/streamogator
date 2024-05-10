@@ -5,7 +5,8 @@ export default createSchema((p) => ({
     id: p.hex(), // the EOA address
     date: p.bigint(), // event.block.timestamp
     streamCap: p.bigint(), // in ETH
-    totalCollected: p.bigint(), // updated every withdraw event
+    totalWithdrawals: p.bigint(), // updated every withdraw event
+    withdrawalsCount: p.int(), // updated every withdraw event
   }),
   Withdrawal: p.createTable({
     id: p.hex(), // the tx hash

@@ -7,13 +7,13 @@ import { SkeletonLoader, Table } from "~~/components/streamogator";
 import { formatDate } from "~~/utils/helpers";
 
 const QUERY = gql`
-  query BuildersByTotalCollected {
-    builders(orderBy: "totalCollected", orderDirection: "desc", limit: 10) {
+  query BuildersBytotalWithdrawals {
+    builders(orderBy: "totalWithdrawals", orderDirection: "desc", limit: 10) {
       items {
         id
         date
         streamCap
-        totalCollected
+        totalWithdrawals
       }
     }
   }
@@ -38,7 +38,7 @@ export const BuilderTotals = () => {
           rows={data.builders.items.map((builder: any) => [
             <Address size="xl" address={builder.id} key={builder.id} />,
             formatDate(builder.date),
-            `Ξ ${Number(formatEther(builder.totalCollected)).toFixed(2)}`,
+            `Ξ ${Number(formatEther(builder.totalWithdrawals)).toFixed(2)}`,
           ])}
         />
       )}
