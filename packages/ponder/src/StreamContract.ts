@@ -1,6 +1,6 @@
 import { ponder } from "@/generated";
 
-ponder.on("YourContract:AddBuilder", async ({ event, context }) => {
+ponder.on("StreamContract:AddBuilder", async ({ event, context }) => {
   console.log(event.args);
 
   const { Builder } = context.db;
@@ -21,7 +21,7 @@ ponder.on("YourContract:AddBuilder", async ({ event, context }) => {
 //   console.log(event.args);
 // });
 
-ponder.on("YourContract:UpdateBuilder", async ({ event, context }) => {
+ponder.on("StreamContract:UpdateBuilder", async ({ event, context }) => {
   console.log(event.args);
 
   const { Builder } = context.db;
@@ -34,7 +34,7 @@ ponder.on("YourContract:UpdateBuilder", async ({ event, context }) => {
   });
 });
 
-ponder.on("YourContract:Withdraw", async ({ event, context }) => {
+ponder.on("StreamContract:Withdraw", async ({ event, context }) => {
   console.log(event.transaction.hash);
 
   const { Withdrawal } = context.db;
