@@ -6,9 +6,9 @@ export const Table = ({ headers, rows }: { headers: any[]; rows: any[] }) => {
     <div className="overflow-x-auto w-full border border-neutral-600 rounded-xl">
       <table className="table text-lg">
         <thead>
-          <tr className="text-xl text-primary border-neutral-600 border-b font-cubano font-normal">
+          <tr className="text-xl border-neutral-600 border-b">
             {headers.map((header: any[], idx: number) => (
-              <th key={idx} className="font-normal">
+              <th key={idx} className="">
                 {header}
               </th>
             ))}

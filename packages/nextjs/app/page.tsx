@@ -5,11 +5,11 @@ import { BuilderTotals, RecentWithdrawals } from "~~/components/streamogator";
 const Home: NextPage = () => {
   return (
     <section className="flex justify-center">
-      <div className="flex flex-col justify-center items-center gap-10 my-10">
+      <div className="flex flex-col justify-center items-center gap-14 my-14">
         <div>
-          <h1 className="text-6xl mb-0 font-cubano">Streamogator</h1>
+          <h1 className="text-6xl mb-0 font-paytone text-primary">STREAMOGATOR</h1>
         </div>
-        <div className="text-xl">
+        <div className="text-2xl">
           🕵️ Data analytics for all Buidl Guidl stream contracts deployed on Ethereum and Optimism
         </div>
 

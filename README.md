@@ -6,8 +6,9 @@ Data analytics for all Buidl Guidl stream contracts deployed on Ethereum and Opt
 
 1. All builders accross all streams sorted by total collected
 2. Most recent stream pulls across all stream cohorts
-3. Most recent new Builder streams
-4. Pie chart of stream distribution by cohort (contract)
+3. Newest Builder streams
+4. Oldest Builder streams
+5. Pie chart of stream distribution by cohort (contract)
 
 ### Ideas
 

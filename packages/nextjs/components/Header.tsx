@@ -24,14 +24,21 @@ export const menuLinks: HeaderMenuLink[] = [
   //   href: "/debug",
   //   icon: <BugAntIcon className="h-4 w-4" />,
   // },
-
   {
-    label: "Builder Totals",
+    label: "Withdrawals",
+    href: "/withdrawals",
+  },
+  {
+    label: "Builders",
     href: "/builders",
   },
   {
-    label: "Recent Withdrawals",
-    href: "/recent",
+    label: "Contracts",
+    href: "/contracts",
+  },
+  {
+    label: "Charts",
+    href: "/charts",
   },
 ];
 
@@ -49,7 +56,7 @@ export const HeaderMenuLinks = () => {
               passHref
               className={`${
                 isActive ? "bg-secondary" : ""
-              } hover:bg-secondary focus:!bg-secondary active:!text-neutral py-1.5 px-3 text-lg rounded-full gap-2 grid grid-flow-col`}
+              } hover:bg-secondary focus:!bg-secondary active:!text-neutral py-1.5 px-3 text-xl rounded-full gap-2 grid grid-flow-col`}
             >
               {icon}
               <span>{label}</span>
@@ -98,7 +105,7 @@ export const Header = () => {
           )}
         </div>
         <Link href="/" passHref className="hidden lg:flex items-center gap-2 ml-4 mr-6 shrink-0">
-          <div className="font-cubano text-xl">🐊 Streamogator</div>
+          <div className="font-paytone text-2xl text-primary">🐊 STREAMOGATOR</div>
         </Link>
         <ul className="hidden lg:flex lg:flex-nowrap menu menu-horizontal px-1 gap-2">
           <HeaderMenuLinks />

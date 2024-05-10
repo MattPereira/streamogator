@@ -26,7 +26,7 @@ export const BuilderTotals = () => {
 
   return (
     <div>
-      <h3 className="text-center text-3xl mb-3 font-cubano">Builder Totals</h3>
+      <h3 className="text-center text-4xl mb-3">Builder Totals</h3>
 
       {loading ? (
         <div className="w-[551px] h-[602px]">

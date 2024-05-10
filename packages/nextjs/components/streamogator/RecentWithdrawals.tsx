@@ -25,7 +25,7 @@ export const RecentWithdrawals = () => {
   if (error) return <div className="text-red-500">Error : {error.message}</div>;
   return (
     <div>
-      <h3 className="text-center text-3xl font-cubano mb-3">Recent Withdrawals</h3>
+      <h3 className="text-center text-4xl font-cubano mb-3">Recent Withdrawals</h3>
 
       {loading ? (
         <div className="w-[551px] h-[602px]">
@@ -33,7 +33,7 @@ export const RecentWithdrawals = () => {
         </div>
       ) : (
         <Table
-          headers={["Builder", "Start", "Amount"]}
+          headers={["Builder", "Date", "Amount"]}
           rows={data.withdrawals.items.map((withdrawal: any, idx: number) => [
             <Address size="xl" address={withdrawal.to} key={idx} />,
             formatDate(withdrawal.date),
