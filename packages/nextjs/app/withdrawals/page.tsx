@@ -16,6 +16,9 @@ const QUERY = gql`
         date
         to
         amount
+        network
+        contract
+        gas
       }
     }
   }
@@ -42,12 +45,14 @@ const Withdrawals: NextPage = () => {
           </div>
         ) : (
           <Table
-            headers={["Builder", "Date", "Amount", "Transaction", "Contract", "Gas Spent"]}
+            headers={["Builder", "Date", "Amount", "Transaction", "Contract", "Gas"]}
             rows={data.withdrawals.items.map((withdrawal: any, idx: number) => [
               <Address size="xl" address={withdrawal.to} key={idx} />,
               formatDate(withdrawal.date),
               `Ξ ${Number(formatEther(withdrawal.amount)).toFixed(2)}`,
-              withdrawal.id,
+              abbreviateHex(withdrawal.id),
+              <Address size="xl" address={withdrawal.contract} key={idx} />,
+              withdrawal.gas,
             ])}
           />
         )}
@@ -57,3 +62,7 @@ const Withdrawals: NextPage = () => {
 };
 
 export default Withdrawals;
+
+const abbreviateHex = (string: string) => {
+  return `${string.slice(0, 6)}...${string.slice(-4)}`;
+};

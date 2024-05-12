@@ -15,7 +15,7 @@ export default createSchema((p) => ({
     to: p.hex().references("Builder.id"),
     amount: p.bigint(), // in ETH
     gas: p.bigint(), // event.transaction.gas
-    contract: p.hex(), // event.transaction.from (the stream contract address)
+    contract: p.hex().optional(), // event.transaction.from (the stream contract address)
     network: p.int(), // context.network.chainId
   }),
 }));

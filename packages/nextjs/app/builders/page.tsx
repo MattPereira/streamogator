@@ -1,6 +1,7 @@
 "use client";
 
 // import Link from "next/link";
+import { useState } from "react";
 import { gql, useQuery } from "@apollo/client";
 import type { NextPage } from "next";
 import { formatEther } from "viem";
@@ -9,21 +10,55 @@ import { SkeletonLoader, Table } from "~~/components/streamogator";
 import { formatDate } from "~~/utils/helpers";
 
 const QUERY = gql`
-  query BuildersBytotalWithdrawals {
-    builders(orderBy: "totalWithdrawals", orderDirection: "desc") {
+  query BuildersBytotalWithdrawals($limit: Int!, $after: String, $orderBy: String!, $orderDirection: String!) {
+    builders(limit: $limit, after: $after, orderBy: $orderBy, orderDirection: $orderDirection) {
+      pageInfo {
+        endCursor
+        hasNextPage
+      }
       items {
         id
         date
         streamCap
         totalWithdrawals
         withdrawalsCount
+        contract
       }
     }
   }
 `;
 
 const BuilderTotals: NextPage = () => {
-  const { data, loading, error } = useQuery(QUERY);
+  const [limit] = useState(10);
+  const [afterCursor, setAfterCursor] = useState<string | null>(null);
+  const [cursorHistory, setCursorHistory] = useState<string[]>([]);
+
+  const { data, loading, error } = useQuery(QUERY, {
+    variables: { limit, after: afterCursor, orderBy: "totalWithdrawals", orderDirection: "desc" },
+    fetchPolicy: "network-only", // Ensures fresh server-side fetch
+  });
+
+  if (data) {
+    console.log(data.builders.items);
+  }
+
+  const loadNextItems = () => {
+    if (data.builders.pageInfo.hasNextPage) {
+      const newCursor = data.builders.pageInfo.endCursor;
+      setCursorHistory([...cursorHistory, newCursor]); // Save current cursor before fetching next
+      setAfterCursor(newCursor);
+    }
+  };
+
+  const loadPreviousItems = () => {
+    if (cursorHistory.length > 0) {
+      const newHistory = [...cursorHistory];
+      newHistory.pop(); // Remove the current cursor
+      const previousCursor = newHistory.length > 0 ? newHistory[newHistory.length - 1] : null;
+      setCursorHistory(newHistory);
+      setAfterCursor(previousCursor);
+    }
+  };
 
   if (error) return <div className="text-red-500 text-center my-10">Error : {error.message}</div>;
 
@@ -36,7 +71,7 @@ const BuilderTotals: NextPage = () => {
         <div className="text-2xl">🏗️ Data for each builder that has pulled from a Buidl Guidl stream contract</div>
 
         {loading ? (
-          <div className="w-[750px] h-[999px]">
+          <div className="w-[1051px] h-[602px]">
             <SkeletonLoader />
           </div>
         ) : (
@@ -54,9 +89,18 @@ const BuilderTotals: NextPage = () => {
                   )}`
                 : "Ξ 0.00",
               ,
+              <Address size="xl" address={builder.contract} key={builder.id} />,
             ])}
           />
         )}
+        <div className="flex justify-end gap-5 w-full">
+          <button className="btn btn-accent" onClick={loadPreviousItems} disabled={!cursorHistory.length}>
+            Prev 10
+          </button>
+          <button className="btn btn-primary" onClick={loadNextItems} disabled={!data?.builders?.pageInfo?.hasNextPage}>
+            Next 10
+          </button>
+        </div>
       </div>
     </section>
   );
