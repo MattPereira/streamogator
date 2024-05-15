@@ -16,7 +16,12 @@ export const Table = ({ headers, rows }: { headers: any[]; rows: any[] }) => {
         </thead>
         <tbody>
           {rows.map((row: any[], idx: number) => (
-            <tr key={idx} className={` ${idx !== rows.length - 1 && "border-neutral-600 border-b"}`}>
+            <tr
+              key={idx}
+              className={`hover:bg-base-100 hover:cursor-pointer ${
+                idx !== rows.length - 1 && "border-neutral-600 border-b"
+              }`}
+            >
               {row.map((cell, cellIdx) => (
                 <td key={cellIdx}>{cell}</td>
               ))}

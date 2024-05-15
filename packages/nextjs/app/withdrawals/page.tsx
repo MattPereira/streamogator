@@ -6,7 +6,7 @@ import type { NextPage } from "next";
 import { formatEther } from "viem";
 import { Address } from "~~/components/scaffold-eth";
 import { SkeletonLoader, Table } from "~~/components/streamogator";
-import { formatDate } from "~~/utils/helpers";
+import { formatDate, streamDirectory } from "~~/utils/helpers";
 
 const QUERY = gql`
   query RecentWithdrawals {
@@ -17,8 +17,8 @@ const QUERY = gql`
         to
         amount
         network
-        contract
-        gas
+        streamContract
+        reason
       }
     }
   }
@@ -26,6 +26,7 @@ const QUERY = gql`
 
 const Withdrawals: NextPage = () => {
   const { data, loading, error } = useQuery(QUERY);
+  console.log("data", data);
 
   if (error) return <div className="text-red-500 text-center my-10">Error : {error.message}</div>;
 
@@ -35,25 +36,29 @@ const Withdrawals: NextPage = () => {
         <div>
           <h1 className="text-5xl mb-0 font-paytone">WITHDRAWALS</h1>
         </div>
-        <div className="text-2xl">
-          💰 List of all the withdrawals accross all stream contracts on Ethereum and Optimism
-        </div>
+        <div className="text-2xl">👇 Select a withdrawal to see the full details for a transaction</div>
 
-        {loading ? (
+        {loading || data.withdrawals.items.length < 1 ? (
           <div className="w-[551px] h-[602px]">
             <SkeletonLoader />
           </div>
         ) : (
           <Table
-            headers={["Builder", "Date", "Amount", "Transaction", "Contract", "Gas"]}
-            rows={data.withdrawals.items.map((withdrawal: any, idx: number) => [
-              <Address size="xl" address={withdrawal.to} key={idx} />,
-              formatDate(withdrawal.date),
-              `Ξ ${Number(formatEther(withdrawal.amount)).toFixed(2)}`,
-              abbreviateHex(withdrawal.id),
-              <Address size="xl" address={withdrawal.contract} key={idx} />,
-              withdrawal.gas,
-            ])}
+            headers={["Builder", "Date", "Amount", "Transaction", "Stream"]}
+            rows={data.withdrawals.items.map((withdrawal: any, idx: number) => {
+              const builderAddress = withdrawal.to;
+              const date = formatDate(withdrawal.date);
+              const transactionHash = abbreviateHex(withdrawal.id);
+              const streamName = streamDirectory[withdrawal.streamContract]?.name || "N/A";
+
+              return [
+                <Address size="xl" address={builderAddress} key={idx} />,
+                date,
+                `Ξ ${Number(formatEther(withdrawal.amount)).toFixed(2)}`,
+                transactionHash,
+                streamName,
+              ];
+            })}
           />
         )}
       </div>

@@ -5,16 +5,20 @@ ponder.on("StreamContract:AddBuilder", async ({ event, context }) => {
 
   const { Builder } = context.db;
 
-  // If the builder already exists because he belongs to more than one stream contract
+  // If the builder already exists ( because they belong  to more than one stream contract )
   const builder = await Builder.findUnique({
     id: event.args.to,
   });
   if (builder) {
-    // Update to record Builder's highest stream cap (or add it?)
+    // Update to record with another stream contract and stream cap
     await Builder.update({
       id: event.args.to,
       data: {
-        streamCap: event.args.amount + builder.streamCap,
+        streamCap: builder.streamCap + event.args.amount,
+        streamContracts: [
+          ...builder.streamContracts,
+          event.transaction.to as `0x${string}`,
+        ],
       },
     });
   } else {
@@ -23,7 +27,7 @@ ponder.on("StreamContract:AddBuilder", async ({ event, context }) => {
       id: event.args.to,
       data: {
         date: event.block.timestamp,
-        contract: event.transaction.from,
+        streamContracts: [event.transaction.to as `0x${string}`],
         streamCap: event.args.amount,
         totalWithdrawals: 0n,
         withdrawalsCount: 0,
@@ -60,8 +64,8 @@ ponder.on("StreamContract:Withdraw", async ({ event, context }) => {
       date: event.block.timestamp,
       to: event.args.to,
       amount: event.args.amount,
-      gas: event.transaction.gas,
-      contract: event.transaction.to as `0x${string}` | undefined,
+      reason: event.args.reason,
+      streamContract: event.transaction.to as `0x${string}`,
       network: context.network.chainId,
     },
   });

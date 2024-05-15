@@ -7,7 +7,7 @@ import type { NextPage } from "next";
 import { formatEther } from "viem";
 import { Address } from "~~/components/scaffold-eth";
 import { SkeletonLoader, Table } from "~~/components/streamogator";
-import { formatDate } from "~~/utils/helpers";
+import { formatDate, streamDirectory } from "~~/utils/helpers";
 
 const QUERY = gql`
   query BuildersBytotalWithdrawals($limit: Int!, $after: String, $orderBy: String!, $orderDirection: String!) {
@@ -20,13 +20,22 @@ const QUERY = gql`
         id
         date
         streamCap
+        streamContracts
         totalWithdrawals
         withdrawalsCount
-        contract
       }
     }
   }
 `;
+
+type Builder = {
+  streamContracts: `0x${string}`[];
+  date: number;
+  id: `0x${string}`;
+  streamCap: bigint;
+  totalWithdrawals: bigint;
+  withdrawalsCount: number;
+};
 
 const BuilderTotals: NextPage = () => {
   const [limit] = useState(10);
@@ -68,29 +77,38 @@ const BuilderTotals: NextPage = () => {
         <div>
           <h1 className="text-5xl mb-0 font-paytone">BUILDERS</h1>
         </div>
-        <div className="text-2xl">🏗️ Data for each builder that has pulled from a Buidl Guidl stream contract</div>
+        <div className="text-2xl">👇 Select a builder to see the full details of their withdrawal history</div>
 
-        {loading ? (
+        {loading || !data.builders.items ? (
           <div className="w-[1051px] h-[602px]">
             <SkeletonLoader />
           </div>
         ) : (
           <Table
-            headers={["Builder", "Start", "Pulls", "Cap", "Total", "Average", "Contract"]}
-            rows={data.builders.items.map((builder: any) => [
-              <Address size="xl" address={builder.id} key={builder.id} />,
-              formatDate(builder.date),
-              builder.withdrawalsCount,
-              `Ξ ${Number(formatEther(builder.streamCap)).toFixed(2)}`,
-              `Ξ ${Number(formatEther(builder.totalWithdrawals)).toFixed(2)}`,
-              builder.withdrawalsCount > 0
-                ? `Ξ ${Number(formatEther(BigInt(builder.totalWithdrawals) / BigInt(builder.withdrawalsCount))).toFixed(
-                    2,
-                  )}`
-                : "Ξ 0.00",
-              ,
-              <Address size="xl" address={builder.contract} key={builder.id} />,
-            ])}
+            headers={["Builder", "Start", "Pulls", "Average", "Total", "Cap", "Stream"]}
+            rows={data.builders.items.map((builder: Builder) => {
+              const builderAddress = builder.id;
+              const startDate = formatDate(builder.date);
+              const averageWithdrawalAmount =
+                builder.withdrawalsCount > 0
+                  ? `Ξ ${Number(
+                      formatEther(BigInt(builder.totalWithdrawals) / BigInt(builder.withdrawalsCount)),
+                    ).toFixed(2)}`
+                  : "Ξ 0.00";
+              const streamCap = `Ξ ${Number(formatEther(builder.streamCap)).toFixed(2)}`;
+              const totalWithdrawals = `Ξ ${Number(formatEther(builder.totalWithdrawals)).toFixed(2)}`;
+              const streamContract = builder.streamContracts[0].toLowerCase();
+              return [
+                <Address size="xl" address={builderAddress} key={builder.id} />,
+                startDate,
+                builder.withdrawalsCount,
+                averageWithdrawalAmount,
+                totalWithdrawals,
+                streamCap,
+                streamDirectory[streamContract]?.name || "N/A",
+                ,
+              ];
+            })}
           />
         )}
         <div className="flex justify-end gap-5 w-full">

@@ -2,6 +2,20 @@
 
 Data analytics for all Buidl Guidl stream contracts deployed on Ethereum and Optimism
 
+### Getting Started
+
+1. Start the ponder backend framework
+
+```
+yarn ponder:dev
+```
+
+2. Start the frontend
+
+```
+yarn start
+```
+
 ### Pages
 
 #### Home
