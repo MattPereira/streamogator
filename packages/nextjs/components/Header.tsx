@@ -33,8 +33,8 @@ export const menuLinks: HeaderMenuLink[] = [
     href: "/builders",
   },
   {
-    label: "Contracts",
-    href: "/contracts",
+    label: "Streams",
+    href: "/streams",
   },
   {
     label: "Charts",

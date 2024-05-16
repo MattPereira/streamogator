@@ -2,6 +2,10 @@
 
 Data analytics for all Buidl Guidl stream contracts deployed on Ethereum and Optimism
 
+### Why?
+
+To give stream contract admins and stream withdrawers more info about the novel capital allocation mechanism that is on chain streams. My hope is this build may inspire conversations and ideas that lead to better outcomes for everyone.
+
 ### Getting Started
 
 1. Start the ponder backend framework
@@ -15,38 +19,6 @@ yarn ponder:dev
 ```
 yarn start
 ```
-
-### Pages
-
-#### Home
-
-Top 10 list for these categories. UI is a looping carousel.
-
-- Total withdrawals for each builder
-- Recent withdrawals
-- Newest builders added to a stream
-- Total withdrawals for each contract
-
-#### Builders
-
-- Aggreagate data for all builders
-
-#### Withdrawals
-
-- List of all withdrwals from every stream
-
-#### Contracts
-
-- List of all contracts for every stream
-
-#### Charts
-
-- Pie chart of stream distribution by stream contract
-- Chart to compare withdrawals per builder (squares of relative size like coins / nfts site )
-
-### Features
-
-- Sort by column values for each page
 
 ### Other Ideas
 

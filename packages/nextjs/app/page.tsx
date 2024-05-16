@@ -6,26 +6,26 @@ const PAGES = [
     emoji: "💰",
     title: "Withdrawals",
     href: "/withdrawals",
-    description: "Explore list of withdrawals from all Buidl Guidl streams",
+    description: "Explore compiled list of withdrawals from all stream contracts",
   },
   {
-    emoji: "👷",
+    emoji: "🏗️",
     title: "Builders",
     href: "/builders",
-    description: "Explore aggregated data for all EOAs that have withdrawn from a stream",
+    description: "Explore aggregated data of withdrawals for each builder",
   },
 
   {
     emoji: "🏞️",
     title: "Streams",
     href: "/streams",
-    description: "Aggregate data for each stream contract deployed on Ethereum and Optimism",
+    description: "Explore aggregated data for each Buidl Guidl stream contract",
   },
   {
     emoji: "📊",
     title: "Charts",
     href: "/charts",
-    description: "Aggregate data for each stream contract deployed on Ethereum and Optimism",
+    description: "Visualize stream contract data with interactive charts",
   },
 ];
 

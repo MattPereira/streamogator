@@ -1,6 +1,12 @@
 import { createSchema } from "@ponder/core";
 
 export default createSchema((p) => ({
+  Stream: p.createTable({
+    id: p.hex(), // stream contract address
+    name: p.string(),
+    startBlock: p.int(),
+    chainId: p.int(),
+  }),
   Builder: p.createTable({
     id: p.hex(), // the EOA address
     date: p.bigint(), // event.block.timestamp
@@ -15,7 +21,7 @@ export default createSchema((p) => ({
     to: p.hex().references("Builder.id"),
     amount: p.bigint(), // in ETH
     reason: p.string(), // event.transaction.gas
-    streamContract: p.hex(), // event.transaction.from (the stream contract address)
+    streamContract: p.hex().references("Stream.id"), // event.transaction.from (the stream contract address)
     network: p.int(), // context.network.chainId
   }),
 }));

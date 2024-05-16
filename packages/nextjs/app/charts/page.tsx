@@ -7,7 +7,7 @@ import type { NextPage } from "next";
 // import { formatEther } from "viem";
 // import { Address } from "~~/components/scaffold-eth";
 // import { SkeletonLoader, Table } from "~~/components/streamogator";
-// import { formatDate } from "~~/utils/helpers";
+// import { timestampToDate } from "~~/utils/helpers";
 
 const Charts: NextPage = () => {
   return (
