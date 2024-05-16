@@ -2,9 +2,9 @@
 
 Data analytics for all Buidl Guidl stream contracts deployed on Ethereum and Optimism
 
-### Why?
+### Motivation
 
-To give stream contract admins and stream withdrawers more info about the novel capital allocation mechanism that is on chain streams. My hope is this build may inspire conversations and ideas that lead to better outcomes for everyone.
+To provide the community with more information about this novel capital allocation mechanism. My hope is this build may inspire conversations and ideas that lead to better outcomes for all parties involved.
 
 ### Getting Started
 
@@ -20,8 +20,9 @@ yarn ponder:dev
 yarn start
 ```
 
-### Other Ideas
+### Roadmap Ideas
 
+- Click on a table row to see full details for transaction or builder in a modal pop up or details page
+- Sort withdrawals by gas used
+- Sort builders by total gas spent
 - Show amount of ETH in each contract
-- Rank withdrawals by gas cost and total gas spent for each builder
-- Click on a row to get the full details for transaction or builder in a modal pop up
