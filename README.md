@@ -1,12 +1,8 @@
-# Streamogator
+# 🐊 StreamoGator
 
-Data analytics for all Buidl Guidl stream contracts deployed on Ethereum and Optimism
+Data analytics for all Buidl Guidl stream contracts deployed on Ethereum and Optimism. The goal for this buidl is to provide the community with more information in order to inspire conversations and ideas that may lead to better outcomes for all parties involved.
 
-### Motivation
-
-To provide the community with more information about this novel capital allocation mechanism. My hope is this build may inspire conversations and ideas that lead to better outcomes for all parties involved.
-
-### Getting Started
+### 🏁 Getting Started
 
 1. Start the ponder backend framework
 
@@ -20,7 +16,7 @@ yarn ponder:dev
 yarn start
 ```
 
-### Roadmap Ideas
+### 🛣️ Roadmap
 
 - Click on a table row to see full details for transaction or builder in a modal pop up or details page
 - Sort withdrawals by gas used
