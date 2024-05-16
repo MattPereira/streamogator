@@ -2,21 +2,40 @@
 
 Data analytics for all Buidl Guidl stream contracts deployed on Ethereum and Optimism. The goal for this buidl is to provide the community with more information in order to inspire conversations and ideas that may lead to better outcomes for all parties involved.
 
-### 🏁 Getting Started
+## 🏁 Getting Started
 
-1. Start the ponder backend framework
+1. Clone the repo
+
+```bash
+git clone https://github.com/MattPereira/streamogator.git
+```
+
+2. Install dependencies
+
+```bash
+yarn install
+```
+
+3. Add environment variables to `./packages/ponder/.env.local`
 
 ```
+PONDER_RPC_URL_1=https://eth-mainnet.alchemyapi.io/v2/...
+PONDER_RPC_URL_10=https://opt-mainnet.g.alchemy.com/v2/...
+```
+
+4. Start the ponder backend framework
+
+```bash
 yarn ponder:dev
 ```
 
-2. Start the frontend
+5. Start the frontend
 
-```
+```bash
 yarn start
 ```
 
-### 🛣️ Roadmap
+## 🛣️ Roadmap
 
 - Click on a table row to see full details for transaction or builder in a modal pop up or details page
 - Sort withdrawals by gas used
