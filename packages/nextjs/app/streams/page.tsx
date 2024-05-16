@@ -21,7 +21,7 @@ type Stream = {
 };
 
 const STREAMS = gql`
-  query Withdrawals($orderBy: String!, $orderDirection: String!) {
+  query Streams($orderBy: String!, $orderDirection: String!) {
     streams(orderBy: $orderBy, orderDirection: $orderDirection) {
       items {
         id
