@@ -54,9 +54,9 @@ export const ScaffoldEthAppWithProviders = ({ children }: { children: React.Reac
     setMounted(true);
   }, []);
 
-  const subgraphUri = "http://localhost:42069";
+  const graphQLUri = process.env.NEXT_PUBLIC_GRAPHQL_URI;
   const apolloClient = new ApolloClient({
-    uri: subgraphUri,
+    uri: graphQLUri,
     cache: new InMemoryCache(),
   });
 
