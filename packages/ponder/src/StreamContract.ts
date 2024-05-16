@@ -66,7 +66,7 @@ ponder.on("StreamContract:setup", async ({ context }) => {
  * Handle a builder who is added to multiple stream contracts
  */
 ponder.on("StreamContract:AddBuilder", async ({ event, context }) => {
-  // console.log("Adding Builder...");
+  console.log("AddBuilder", event.args);
   const { Builder } = context.db;
   // If the builder already exists ( because they belong  to more than one stream contract )
   const builder = await Builder.findUnique({
@@ -117,7 +117,7 @@ ponder.on("StreamContract:AddBuilder", async ({ event, context }) => {
  * Since a builder can have their stream cap updated, we need to update the builder record
  */
 ponder.on("StreamContract:UpdateBuilder", async ({ event, context }) => {
-  // console.log("Updating Builder...");
+  console.log("Updating Builder...");
   const { Builder } = context.db;
 
   await Builder.update({
@@ -133,7 +133,7 @@ ponder.on("StreamContract:UpdateBuilder", async ({ event, context }) => {
  * Update the builder record for totalWithdrawals and withdrawalsCount
  */
 ponder.on("StreamContract:Withdraw", async ({ event, context }) => {
-  // console.log("Withdrawal Event...");
+  console.log("Withdrawal:", event.args);
   const streamContract = event.transaction.to as `0x${string}`;
   const amount = event.args.amount;
 

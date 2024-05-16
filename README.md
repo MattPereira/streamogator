@@ -1,6 +1,6 @@
 # 🐊 StreamoGator
 
-Data analytics for all Buidl Guidl stream contracts deployed on Ethereum and Optimism. The goal for this buidl is to provide the community with more information in order to inspire conversations and ideas that may lead to better outcomes for all parties involved.
+Data analytics for all Buidl Guidl stream contracts deployed on Ethereum and Optimism.
 
 ## 🏁 Getting Started
 
