@@ -33,8 +33,9 @@ const Home: NextPage = () => {
   return (
     <section className="flex justify-center px-10">
       <div className="flex flex-col justify-center items-center gap-14 my-14">
-        <div>
-          <h1 className="text-6xl mb-0 font-paytone">STREAMOGATOR</h1>
+        <div className="relative">
+          <div className="mt-2 absolute left-0 text-5xl">🐊</div>
+          <h1 className="text-6xl mb-0 font-paytone px-16">StreamoGator</h1>
         </div>
         <div className="text-2xl">
           🕵️ Data analytics for all Buidl Guidl stream contracts deployed on Ethereum and Optimism

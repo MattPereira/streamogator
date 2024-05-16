@@ -12,11 +12,12 @@ import type { NextPage } from "next";
 const Charts: NextPage = () => {
   return (
     <section className="flex justify-center">
-      <div className="flex flex-col justify-center items-center gap-14 my-14">
-        <div>
-          <h1 className="text-5xl mb-0 font-paytone">CHARTS</h1>
+      <div className="flex flex-col justify-center items-center gap-10 my-14">
+        <div className="relative">
+          <div className="absolute left-0 text-5xl mt-2">📊</div>
+          <h1 className="text-6xl mb-0 font-paytone px-16">Charts</h1>
         </div>
-        <div className="text-2xl">📊 Visualizations for Buidl Guidl stream contract withdrawals</div>
+        <div className="text-2xl"> Visualizations for Buidl Guidl stream contract withdrawals</div>
       </div>
     </section>
   );

@@ -105,7 +105,7 @@ export const Header = () => {
           )}
         </div>
         <Link href="/" passHref className="hidden lg:flex items-center gap-2 ml-4 mr-6 shrink-0">
-          <div className="font-paytone text-2xl">🐊 STREAMOGATOR</div>
+          <div className="font-paytone text-2xl">🐊 StreamoGator</div>
         </Link>
         <ul className="hidden lg:flex lg:flex-nowrap menu menu-horizontal px-1 gap-2">
           <HeaderMenuLinks />
