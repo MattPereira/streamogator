@@ -4,20 +4,10 @@
 import { useState } from "react";
 import { gql, useQuery } from "@apollo/client";
 import type { NextPage } from "next";
-import { formatEther } from "viem";
 import { Address } from "~~/components/scaffold-eth";
 import { SkeletonLoader, Table, TableControls } from "~~/components/streamogator";
-import { streamDirectory, timestampToDate } from "~~/utils/helpers";
-
-type Withdrawal = {
-  id: `0x${string}`; // txHash
-  date: number;
-  to: `0x${string}`;
-  amount: bigint;
-  network: string;
-  streamContract: `0x${string}`;
-  reason: string;
-};
+import { type Withdrawal } from "~~/types/streamogator";
+import { customFormatEther, streamDirectory, timestampToDate } from "~~/utils/helpers";
 
 const WITHDRAWALS = gql`
   query Withdrawals($limit: Int!, $after: String, $orderBy: String!, $orderDirection: String!) {
@@ -33,7 +23,7 @@ const WITHDRAWALS = gql`
         date
         to
         amount
-        network
+        chainId
         streamContract
         reason
       }
@@ -52,6 +42,8 @@ const Withdrawals: NextPage = () => {
     variables: { limit, after: afterCursor, orderBy, orderDirection },
     fetchPolicy: "network-only", // Ensures fresh server-side fetch
   });
+
+  console.log("data", data);
 
   if (error) return <div className="text-red-500 text-center my-10">Error : {error.message}</div>;
 
@@ -92,9 +84,8 @@ const Withdrawals: NextPage = () => {
     { label: "Builder", key: "to", isSortable: true },
     { label: "Date", key: "date", isSortable: true },
     { label: "Amount", key: "amount", isSortable: true },
-    { label: "Transaction", key: "id", isSortable: true },
     { label: "Stream", key: "streamContract", isSortable: true },
-    { label: "Reason", key: "reason", isSortable: true },
+    { label: "Chain", key: "network", isSortable: true },
   ];
 
   return (
@@ -126,16 +117,18 @@ const Withdrawals: NextPage = () => {
               orderDirection={orderDirection}
               orderBy={orderBy}
               headers={headers}
+              hrefPrefix="/withdrawals/"
               rows={data.withdrawals.items.map((withdrawal: Withdrawal) => {
                 const builder = <Address size="xl" address={withdrawal.to} key={withdrawal.id} />;
                 const date = timestampToDate(withdrawal.date);
-                const amount = `Ξ ${Number(formatEther(withdrawal.amount)).toFixed(2)}`;
-                const transaction = abbreviateHex(withdrawal.id);
+                const amount = customFormatEther(withdrawal.amount);
+                const id = withdrawal.id;
                 const stream = streamDirectory[withdrawal.streamContract]?.name || "N/A";
-                const reason = withdrawal.reason;
+                const chain = withdrawal.chainId;
 
+                // id is not displayed (only used for details page link)
                 // must match the order from headers
-                return [builder, date, amount, transaction, stream, reason];
+                return [id, builder, date, amount, stream, chain];
               })}
             />
           )}
@@ -146,7 +139,3 @@ const Withdrawals: NextPage = () => {
 };
 
 export default Withdrawals;
-
-const abbreviateHex = (string: string) => {
-  return `${string.slice(0, 6)}...${string.slice(-4)}`;
-};

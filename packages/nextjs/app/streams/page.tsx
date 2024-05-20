@@ -7,18 +7,8 @@ import type { NextPage } from "next";
 import { formatEther } from "viem";
 import { Address } from "~~/components/scaffold-eth";
 import { SkeletonLoader, Table } from "~~/components/streamogator";
+import { type Stream } from "~~/types/streamogator";
 import { timestampToDate } from "~~/utils/helpers";
-
-type Stream = {
-  id: `0x${string}`; // contract address
-  name: string;
-  chainId: string;
-  startBlock: number;
-  buildersCount: number;
-  withdrawalsCount: number;
-  totalWithdrawals: bigint;
-  timestamp: string;
-};
 
 const STREAMS = gql`
   query Streams($orderBy: String!, $orderDirection: String!) {
@@ -57,8 +47,8 @@ const Streams: NextPage = () => {
   };
 
   const headers = [
-    { label: "Address", key: "id", isSortable: true },
     { label: "Name", key: "name", isSortable: true },
+    { label: "Address", key: "id", isSortable: true },
     { label: "Start", key: "timestamp", isSortable: true },
     { label: "Builders", key: "buildersCount", isSortable: true },
     { label: "Pulls", key: "withdrawalsCount", isSortable: true },
@@ -87,7 +77,7 @@ const Streams: NextPage = () => {
               orderBy={orderBy}
               headers={headers}
               rows={data?.streams?.items.map((stream: Stream) => {
-                const address = <Address size="xl" address={stream.id} />;
+                const address = <Address size="lg" address={stream.id} />;
                 const name = stream.name;
                 const start = timestampToDate(Number(stream.timestamp));
                 const buildersCount = stream.buildersCount;
@@ -95,7 +85,7 @@ const Streams: NextPage = () => {
                 const totalWithdrawals = `Ξ ${Number(formatEther(stream.totalWithdrawals)).toFixed(2)}`;
                 const chainId = stream.chainId;
 
-                return [address, name, start, buildersCount, withdrawalsCount, totalWithdrawals, chainId];
+                return [stream.id, name, address, start, buildersCount, withdrawalsCount, totalWithdrawals, chainId];
               })}
             />
           )}

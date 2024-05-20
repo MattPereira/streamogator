@@ -147,7 +147,7 @@ ponder.on("StreamContract:Withdraw", async ({ event, context }) => {
       amount,
       reason: event.args.reason,
       streamContract,
-      network: context.network.chainId,
+      chainId: context.network.chainId,
     },
   });
 

@@ -1,4 +1,5 @@
-import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/24/outline";
+import { useRouter } from "next/navigation";
+import { ChevronDownIcon, ChevronUpIcon, EyeIcon, QuestionMarkCircleIcon } from "@heroicons/react/24/outline";
 
 type TableHeader = {
   label: string; // Human-readable label for the header
@@ -12,18 +13,23 @@ interface TableProps {
   setOrderDirection: (key: string) => void;
   orderBy: string;
   orderDirection: "asc" | "desc";
+  hrefPrefix?: string;
 }
 
 /**
  * 1. Consolidate table styles here
  * 2. Allows for sorting by column in both directions
  */
-export const Table = ({ headers, rows, orderDirection, setOrderDirection, orderBy }: TableProps) => {
+export const Table = ({ headers, rows, orderDirection, setOrderDirection, orderBy, hrefPrefix }: TableProps) => {
+  const router = useRouter();
   return (
     <div className="overflow-x-auto w-full border border-neutral-600 rounded-xl">
       <table className="table text-lg">
         <thead>
           <tr className="text-xl border-neutral-600 border-b">
+            <th>
+              <QuestionMarkCircleIcon className="w-6 h-6" />
+            </th>
             {headers.map((header, idx) => (
               <th
                 key={idx}
@@ -48,18 +54,30 @@ export const Table = ({ headers, rows, orderDirection, setOrderDirection, orderB
           {rows.map((row: any[], idx: number) => (
             <tr
               key={idx}
-              className={`hover:bg-base-100 hover:cursor-pointer ${
+              className={`hover:bg-base-200 hover:text-accent hover:cursor-pointer ${
                 idx !== rows.length - 1 && "border-neutral-600 border-b"
               }`}
+              // Hacky fix to allow for links to details pages
+              onClick={() => router.push(`${hrefPrefix}/${row[0]}`)}
             >
-              {row.map((cell, cellIdx) => (
-                <td
-                  className="max-w-80 overflow-hidden overflow-x-auto min-w-max text-nowrap hide-scrollbar"
-                  key={cellIdx}
-                >
-                  {cell}
-                </td>
-              ))}
+              <td>
+                <div className="border border-base-200 p-1 rounded-lg hover:bg-accent hover:text-accent-content">
+                  <EyeIcon className="w-5 h-5" />
+                </div>
+              </td>
+              {row.map((data, index) => {
+                // Hacky fix to skip over idx 0 which is "id" which allows for links to details pages
+                if (index !== 0) {
+                  return (
+                    <td
+                      className="max-w-80 overflow-hidden overflow-x-auto min-w-max text-nowrap hide-scrollbar"
+                      key={index}
+                    >
+                      {data}
+                    </td>
+                  );
+                }
+              })}
             </tr>
           ))}
         </tbody>

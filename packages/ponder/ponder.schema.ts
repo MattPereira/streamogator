@@ -26,6 +26,6 @@ export default createSchema((p) => ({
     amount: p.bigint(), // in ETH
     reason: p.string(), // event.transaction.gas
     streamContract: p.hex().references("Stream.id"), // event.transaction.from (the stream contract address)
-    network: p.int(), // context.network.chainId
+    chainId: p.int(), // context.network.chainId
   }),
 }));

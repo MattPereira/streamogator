@@ -1,7 +1,17 @@
+import { formatEther } from "viem";
+
 export const timestampToDate = (timestamp: number) => {
   const date = new Date(timestamp * 1000);
   const isoString = date.toISOString();
   return isoString.split("T")[0];
+};
+
+export const abbreviateHex = (string: string) => {
+  return `${string.slice(0, 5)}...${string.slice(-4)}`;
+};
+
+export const customFormatEther = (amount: bigint) => {
+  return `Ξ ${Number(formatEther(amount)).toFixed(2)}`;
 };
 
 type StreamDirectory = {

@@ -7,16 +7,8 @@ import type { NextPage } from "next";
 import { formatEther } from "viem";
 import { Address } from "~~/components/scaffold-eth";
 import { SkeletonLoader, Table, TableControls } from "~~/components/streamogator";
+import { type Builder } from "~~/types/streamogator";
 import { streamDirectory, timestampToDate } from "~~/utils/helpers";
-
-type Builder = {
-  id: `0x${string}`;
-  date: number;
-  streamCap: bigint;
-  streamContracts: `0x${string}`[];
-  totalWithdrawals: bigint;
-  withdrawalsCount: number;
-};
 
 const BUILDERS = gql`
   query Builders($limit: Int!, $after: String, $orderBy: String!, $orderDirection: String!) {
@@ -123,8 +115,9 @@ const BuilderTotals: NextPage = () => {
               orderDirection={orderDirection}
               orderBy={orderBy}
               headers={headers}
+              hrefPrefix={"/builders/"}
               rows={data.builders.items.map((builder: Builder) => {
-                const builderAddress = builder.id;
+                const builderAddress = <Address size="xl" address={builder.id} key={builder.id} />;
                 const startDate = timestampToDate(builder.date);
                 const averageWithdrawalAmount =
                   builder.withdrawalsCount > 0
@@ -138,7 +131,8 @@ const BuilderTotals: NextPage = () => {
                   .map(contract => streamDirectory[contract.toLowerCase()]?.name)
                   .join(", ");
                 return [
-                  <Address size="xl" address={builderAddress} key={builder.id} />,
+                  builder.id,
+                  builderAddress,
                   startDate,
                   builder.withdrawalsCount,
                   averageWithdrawalAmount,
