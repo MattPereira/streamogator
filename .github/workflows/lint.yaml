@@ -19,7 +19,9 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@master
+        uses: actions/checkout@v3
+        with:
+          submodules: recursive
 
       - name: Setup node env
         uses: actions/setup-node@v3
@@ -35,6 +37,11 @@ jobs:
 
       - name: Check typings on nextjs
         run: yarn next:check-types
+
+      - name: Install Foundry
+        uses: foundry-rs/foundry-toolchain@v1
+        with:
+          version: nightly
 
       - name: Run foundry lint
         run: yarn foundry:lint --max-warnings=0
