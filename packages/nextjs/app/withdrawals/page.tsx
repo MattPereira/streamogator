@@ -110,7 +110,7 @@ const Withdrawals: NextPage = () => {
               headers={headers}
               hrefPrefix="/withdrawals/"
               rows={data.withdrawals.items.map((withdrawal: Withdrawal) => {
-                const builder = <Address size="xl" address={withdrawal.to} key={withdrawal.id} />;
+                const builder = <Address size="xl" disableAddressLink address={withdrawal.to} key={withdrawal.id} />;
                 const date = timestampToIsoDate(withdrawal.date);
                 const amount = customFormatEther(withdrawal.amount);
                 const id = withdrawal.id;

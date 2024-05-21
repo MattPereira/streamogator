@@ -78,7 +78,7 @@ const Streams: NextPage = () => {
               headers={headers}
               hrefPrefix={"/streams"}
               rows={data?.streams?.items.map((stream: Stream) => {
-                const address = <Address size="lg" address={stream.id} />;
+                const address = <Address disableAddressLink size="lg" address={stream.id} />;
                 const name = stream.name;
                 const start = timestampToIsoDate(Number(stream.timestamp));
                 const buildersCount = stream.buildersCount;

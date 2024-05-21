@@ -108,7 +108,7 @@ const BuilderTotals: NextPage = () => {
               headers={headers}
               hrefPrefix={"/builders/"}
               rows={data.builders.items.map((builder: Builder) => {
-                const builderAddress = <Address size="xl" address={builder.id} key={builder.id} />;
+                const builderAddress = <Address disableAddressLink size="xl" address={builder.id} key={builder.id} />;
                 const startDate = timestampToIsoDate(builder.date);
                 const averageWithdrawalAmount =
                   builder.withdrawalsCount > 0
