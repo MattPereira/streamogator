@@ -18,7 +18,7 @@ export const TableControls: React.FC<TableControlsProps> = ({
   hasNextPage,
 }) => {
   return (
-    <div className="flex justify-between gap-5 w-full items-center mb-4 px-1">
+    <div className="flex justify-between gap-5 w-full items-center mt-4 px-1">
       <div className="flex items-center gap-3">
         Show{" "}
         <div>

@@ -33,8 +33,8 @@ export const Table = ({ headers, rows, orderDirection, setOrderDirection, orderB
             {headers.map((header, idx) => (
               <th
                 key={idx}
-                className={`${header.isSortable ? "cursor-pointer" : "cursor-not-allowed"}  ${
-                  orderBy === header.key && header.isSortable ? "text-accent bg-base-200" : ""
+                className={`hover:text-accent ${header.isSortable ? "cursor-pointer" : "cursor-not-allowed"}  ${
+                  orderBy === header.key && header.isSortable ? "text-primary bg-base-200" : ""
                 }`}
                 onClick={() => header.isSortable && setOrderDirection(header.key)}
               >
@@ -54,14 +54,14 @@ export const Table = ({ headers, rows, orderDirection, setOrderDirection, orderB
           {rows.map((row: any[], idx: number) => (
             <tr
               key={idx}
-              className={`hover:bg-base-200 hover:text-accent hover:cursor-pointer ${
+              className={`hover:bg-base-200 hover:text-primary hover:cursor-pointer ${
                 idx !== rows.length - 1 && "border-neutral-600 border-b"
               }`}
               // Hacky fix to allow for links to details pages
               onClick={() => router.push(`${hrefPrefix}/${row[0]}`)}
             >
               <td>
-                <div className="border border-base-200 p-1 rounded-lg hover:bg-accent hover:text-accent-content">
+                <div className="border border-base-200 p-1 rounded-lg hover:bg-primary hover:text-accent-content">
                   <EyeIcon className="w-5 h-5" />
                 </div>
               </td>

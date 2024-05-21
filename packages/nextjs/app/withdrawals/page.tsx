@@ -7,7 +7,7 @@ import type { NextPage } from "next";
 import { Address } from "~~/components/scaffold-eth";
 import { SkeletonLoader, Table, TableControls } from "~~/components/streamogator";
 import { type Withdrawal } from "~~/types/streamogator";
-import { customFormatEther, streamDirectory, timestampToDate } from "~~/utils/helpers";
+import { customFormatEther, streamDirectory, timestampToIsoDate } from "~~/utils/helpers";
 
 const WITHDRAWALS = gql`
   query Withdrawals($limit: Int!, $after: String, $orderBy: String!, $orderDirection: String!) {
@@ -98,15 +98,6 @@ const Withdrawals: NextPage = () => {
         <div className="text-2xl">Sort by column name and select a withdrawal to see the full details</div>
 
         <div>
-          <TableControls
-            limit={limit}
-            setLimit={setLimit}
-            loadPreviousItems={loadPreviousItems}
-            loadNextItems={loadNextItems}
-            cursorHistory={cursorHistory}
-            hasNextPage={pageInfo?.hasNextPage}
-          />
-
           {loading ? (
             <div className="w-[1052px] h-[602px]">
               <SkeletonLoader />
@@ -120,7 +111,7 @@ const Withdrawals: NextPage = () => {
               hrefPrefix="/withdrawals/"
               rows={data.withdrawals.items.map((withdrawal: Withdrawal) => {
                 const builder = <Address size="xl" address={withdrawal.to} key={withdrawal.id} />;
-                const date = timestampToDate(withdrawal.date);
+                const date = timestampToIsoDate(withdrawal.date);
                 const amount = customFormatEther(withdrawal.amount);
                 const id = withdrawal.id;
                 const stream = streamDirectory[withdrawal.streamContract]?.name || "N/A";
@@ -132,6 +123,15 @@ const Withdrawals: NextPage = () => {
               })}
             />
           )}
+
+          <TableControls
+            limit={limit}
+            setLimit={setLimit}
+            loadPreviousItems={loadPreviousItems}
+            loadNextItems={loadNextItems}
+            cursorHistory={cursorHistory}
+            hasNextPage={pageInfo?.hasNextPage}
+          />
         </div>
       </div>
     </section>

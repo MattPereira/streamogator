@@ -8,7 +8,7 @@ import { formatEther } from "viem";
 import { Address } from "~~/components/scaffold-eth";
 import { SkeletonLoader, Table, TableControls } from "~~/components/streamogator";
 import { type Builder } from "~~/types/streamogator";
-import { streamDirectory, timestampToDate } from "~~/utils/helpers";
+import { streamDirectory, timestampToIsoDate } from "~~/utils/helpers";
 
 const BUILDERS = gql`
   query Builders($limit: Int!, $after: String, $orderBy: String!, $orderDirection: String!) {
@@ -96,15 +96,6 @@ const BuilderTotals: NextPage = () => {
         <div className="text-2xl">Sort by column name and select a builder to see their full details</div>
 
         <div>
-          <TableControls
-            limit={limit}
-            setLimit={setLimit}
-            loadPreviousItems={loadPreviousItems}
-            loadNextItems={loadNextItems}
-            cursorHistory={cursorHistory}
-            hasNextPage={data?.builders?.pageInfo?.hasNextPage}
-          />
-
           {loading ? (
             <div className="w-[954px] h-[602px]">
               <SkeletonLoader />
@@ -118,7 +109,7 @@ const BuilderTotals: NextPage = () => {
               hrefPrefix={"/builders/"}
               rows={data.builders.items.map((builder: Builder) => {
                 const builderAddress = <Address size="xl" address={builder.id} key={builder.id} />;
-                const startDate = timestampToDate(builder.date);
+                const startDate = timestampToIsoDate(builder.date);
                 const averageWithdrawalAmount =
                   builder.withdrawalsCount > 0
                     ? `Ξ ${Number(
@@ -144,6 +135,15 @@ const BuilderTotals: NextPage = () => {
               })}
             />
           )}
+
+          <TableControls
+            limit={limit}
+            setLimit={setLimit}
+            loadPreviousItems={loadPreviousItems}
+            loadNextItems={loadNextItems}
+            cursorHistory={cursorHistory}
+            hasNextPage={data?.builders?.pageInfo?.hasNextPage}
+          />
         </div>
       </div>
     </section>

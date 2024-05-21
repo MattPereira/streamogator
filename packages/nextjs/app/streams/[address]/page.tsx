@@ -5,25 +5,36 @@ import type { NextPage } from "next";
 import { Address } from "~~/components/scaffold-eth";
 import { StatsShowcase } from "~~/components/streamogator";
 import { type Withdrawal } from "~~/types/streamogator";
-import { customFormatEther, streamDirectory, timestampToFormattedDate, timestampToIsoDate } from "~~/utils/helpers";
+import { customFormatEther, timestampToFormattedDate, timestampToIsoDate } from "~~/utils/helpers";
 
-const BUILDER = gql`
-  query Builder($id: String!) {
-    builder(id: $id) {
-      date
+const STREAM = gql`
+  query GetStreamData($id: String!) {
+    stream(id: $id) {
+      buildersCount
+      chainId
       id
-      streamCap
-      streamContracts
+      name
+      startBlock
+      timestamp
       totalWithdrawals
       withdrawalsCount
     }
-    withdrawals(where: { to: $id }) {
+    builders(where: { streamContracts_has: $id }) {
+      items {
+        id
+        date
+        streamCap
+        totalWithdrawals
+        withdrawalsCount
+        streamContracts
+      }
+    }
+    withdrawals(where: { streamContract: $id }) {
       items {
         amount
-        chainId
         date
-        reason
         id
+        reason
         streamContract
         to
       }
@@ -37,46 +48,42 @@ interface PageProps {
   };
 }
 
-const BuilderDetails: NextPage<PageProps> = ({ params }) => {
-  const { data, loading, error } = useQuery(BUILDER, {
-    variables: { id: params.address },
+/**
+ * @dev Stuck on getting list of builders for a stream. Query fine in GraphiQL playground
+ * but can't figure out proper syntax for apollo client params or its a bug with Ponder???
+ */
+const StreamDetails: NextPage<PageProps> = ({ params }) => {
+  const { data, loading, error } = useQuery(STREAM, {
+    variables: {
+      id: params.address,
+      idArray: [params.address],
+    },
     fetchPolicy: "network-only", // Ensures fresh server-side fetch
   });
 
   if (loading) return <div className="text-center my-10">Loading...</div>;
   if (error) return <div className="text-red-500 text-center my-10">Error : {error.message}</div>;
 
-  const { withdrawalsCount, totalWithdrawals, streamCap, streamContracts, date } = data.builder;
-
   return (
     <section className="overflow-x-auto ">
       <div className="flex justify-center ">
         <div className="flex flex-col justify-center items-center gap-10 my-14 max-w-[1000px]">
-          <Address size="3xl" address={params.address} />
+          <div className="flex flex-col justify-center items-center gap-3">
+            <div className="text-5xl font-paytone">{data.stream.name}</div>
+          </div>
 
           <StatsShowcase
             data={[
-              { label: "Monthly Cap", value: customFormatEther(streamCap) },
-              { label: "Withdrawals", value: withdrawalsCount },
-              {
-                label: "Average",
-                value:
-                  withdrawalsCount > 0
-                    ? customFormatEther(BigInt(totalWithdrawals) / BigInt(withdrawalsCount))
-                    : "0.00",
-              },
-              {
-                label: "Total",
-                value: customFormatEther(totalWithdrawals),
-              },
+              { label: "Builders", value: data.stream.buildersCount },
+              { label: "Withdrawals", value: data.stream.withdrawalsCount },
+              { label: "Total", value: customFormatEther(data.stream.totalWithdrawals) },
             ]}
           />
 
-          <div className="text-2xl">
-            {streamContracts.map((contract: string) => streamDirectory[contract.toLowerCase()]?.name).join(", ")} since{" "}
-            {timestampToFormattedDate(date)}
+          <div className="flex flex-wrap gap-2 text-2xl">
+            <Address size="2xl" address={params.address} /> deployed on{" "}
+            {timestampToFormattedDate(data.stream.timestamp)}
           </div>
-
           <Withdrawals withdrawals={data?.withdrawals?.items} />
         </div>
       </div>
@@ -91,18 +98,18 @@ const Withdrawals = ({ withdrawals }: { withdrawals: Withdrawal[] }) => {
         <table className="table text-xl">
           <thead>
             <tr className="text-xl">
+              <th>Builder</th>
               <th>Date</th>
               <th>Amount</th>
-              <th>Stream</th>
               <th>Reason</th>
             </tr>
           </thead>
           <tbody>
             {withdrawals.map(withdrawal => (
               <tr key={withdrawal.id}>
+                <td>{<Address address={withdrawal.to} size="xl" />}</td>
                 <td className="text-nowrap">{timestampToIsoDate(withdrawal.date)}</td>
                 <td className="text-nowrap">{customFormatEther(withdrawal.amount)}</td>
-                <td>{streamDirectory[withdrawal.streamContract.toLowerCase()]?.name}</td>
                 <td>{withdrawal.reason}</td>
               </tr>
             ))}
@@ -113,4 +120,4 @@ const Withdrawals = ({ withdrawals }: { withdrawals: Withdrawal[] }) => {
   );
 };
 
-export default BuilderDetails;
+export default StreamDetails;

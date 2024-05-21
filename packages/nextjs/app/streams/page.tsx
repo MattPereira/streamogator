@@ -8,7 +8,7 @@ import { formatEther } from "viem";
 import { Address } from "~~/components/scaffold-eth";
 import { SkeletonLoader, Table } from "~~/components/streamogator";
 import { type Stream } from "~~/types/streamogator";
-import { timestampToDate } from "~~/utils/helpers";
+import { timestampToIsoDate } from "~~/utils/helpers";
 
 const STREAMS = gql`
   query Streams($orderBy: String!, $orderDirection: String!) {
@@ -76,10 +76,11 @@ const Streams: NextPage = () => {
               orderDirection={orderDirection}
               orderBy={orderBy}
               headers={headers}
+              hrefPrefix={"/streams"}
               rows={data?.streams?.items.map((stream: Stream) => {
                 const address = <Address size="lg" address={stream.id} />;
                 const name = stream.name;
-                const start = timestampToDate(Number(stream.timestamp));
+                const start = timestampToIsoDate(Number(stream.timestamp));
                 const buildersCount = stream.buildersCount;
                 const withdrawalsCount = stream.withdrawalsCount;
                 const totalWithdrawals = `Ξ ${Number(formatEther(stream.totalWithdrawals)).toFixed(2)}`;

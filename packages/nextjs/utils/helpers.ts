@@ -1,9 +1,18 @@
 import { formatEther } from "viem";
 
-export const timestampToDate = (timestamp: number) => {
+export const timestampToIsoDate = (timestamp: number) => {
   const date = new Date(timestamp * 1000);
   const isoString = date.toISOString();
   return isoString.split("T")[0];
+};
+
+export const timestampToFormattedDate = (timestamp: number): string => {
+  const date = new Date(timestamp * 1000);
+  return new Intl.DateTimeFormat("en-US", {
+    month: "long", // Full month name.
+    day: "numeric", // Numeric day.
+    year: "numeric", // Four digit year.
+  }).format(date);
 };
 
 export const abbreviateHex = (string: string) => {

@@ -4,7 +4,7 @@ import { gql, useQuery } from "@apollo/client";
 import type { NextPage } from "next";
 import { Address } from "~~/components/scaffold-eth";
 import { SkeletonLoader } from "~~/components/streamogator";
-import { abbreviateHex, customFormatEther, timestampToDate } from "~~/utils/helpers";
+import { abbreviateHex, customFormatEther, timestampToIsoDate } from "~~/utils/helpers";
 
 const WITHDRAWAL = gql`
   query SingleWithdrawal($id: String!) {
@@ -53,7 +53,7 @@ const WithdrawalDetails: NextPage<PageProps> = ({ params }) => {
             <table className="table text-xl">
               <tbody>
                 {[
-                  { label: "Date", value: loading ? skeleton : timestampToDate(data?.withdrawal?.date) },
+                  { label: "Date", value: loading ? skeleton : timestampToIsoDate(data?.withdrawal?.date) },
                   {
                     label: "From",
                     value: loading ? skeleton : <Address size="xl" address={data?.withdrawal?.streamContract} />,
