@@ -6,7 +6,7 @@ import "chart.js/auto";
 import type { NextPage } from "next";
 import { Bar } from "react-chartjs-2";
 import { formatEther } from "viem";
-import { SkeletonLoader } from "~~/components/streamogator";
+import { PageTitle, SkeletonLoader } from "~~/components/streamogator";
 
 const options = {
   responsive: true,
@@ -47,12 +47,7 @@ const Charts: NextPage = () => {
   return (
     <section className="flex justify-center">
       <div className="flex flex-col justify-center items-center gap-10 my-14">
-        <div className="relative">
-          <div className="absolute left-0 text-5xl mt-2">📊</div>
-          <h1 className="text-6xl mb-0 font-paytone px-16">Charts</h1>
-        </div>
-        <div className="text-2xl">Vizualize stream contract data with interactive charts</div>
-
+        <PageTitle title="Charts" emoji="📊" description="Vizualize stream contract data with colorful charts" />
         {loading ? (
           <div className="w-[888px] h-[440px]">
             <SkeletonLoader />
