@@ -6,7 +6,7 @@ import { gql, useQuery } from "@apollo/client";
 import type { NextPage } from "next";
 import { formatEther } from "viem";
 import { Address } from "~~/components/scaffold-eth";
-import { SkeletonLoader, Table } from "~~/components/streamogator";
+import { PageTitle, SkeletonLoader, Table } from "~~/components/streamogator";
 import { type Stream } from "~~/types/streamogator";
 import { timestampToIsoDate } from "~~/utils/helpers";
 
@@ -57,40 +57,33 @@ const Streams: NextPage = () => {
   ];
 
   return (
-    <section className="flex justify-center">
-      <div className="flex flex-col justify-center items-center gap-10 my-14">
-        <div className="relative">
-          <div className="absolute left-0 text-5xl mt-2">🏞️</div>
-          <h1 className="text-6xl mb-0 font-paytone px-16">Streams</h1>
-        </div>
-        <div className="text-2xl">Sort by column name and select a stream to see more details</div>
+    <section className="flex flex-col justify-center lg:items-center gap-10 my-14">
+      <PageTitle title="Streams" emoji="🏞️" description="Sort by column name and select a stream to see more details" />
+      <div>
+        {loading ? (
+          <div className="w-[1052px] h-[762px]">
+            <SkeletonLoader />
+          </div>
+        ) : (
+          <Table
+            setOrderDirection={toggleOrderDirection}
+            orderDirection={orderDirection}
+            orderBy={orderBy}
+            headers={headers}
+            hrefPrefix={"/streams"}
+            rows={data?.streams?.items.map((stream: Stream) => {
+              const address = <Address disableAddressLink size="lg" address={stream.id} />;
+              const name = stream.name;
+              const start = timestampToIsoDate(Number(stream.timestamp));
+              const buildersCount = stream.buildersCount;
+              const withdrawalsCount = stream.withdrawalsCount;
+              const totalWithdrawals = `Ξ ${Number(formatEther(stream.totalWithdrawals)).toFixed(2)}`;
+              const chainId = stream.chainId;
 
-        <div>
-          {loading ? (
-            <div className="w-[1052px] h-[602px]">
-              <SkeletonLoader />
-            </div>
-          ) : (
-            <Table
-              setOrderDirection={toggleOrderDirection}
-              orderDirection={orderDirection}
-              orderBy={orderBy}
-              headers={headers}
-              hrefPrefix={"/streams"}
-              rows={data?.streams?.items.map((stream: Stream) => {
-                const address = <Address disableAddressLink size="lg" address={stream.id} />;
-                const name = stream.name;
-                const start = timestampToIsoDate(Number(stream.timestamp));
-                const buildersCount = stream.buildersCount;
-                const withdrawalsCount = stream.withdrawalsCount;
-                const totalWithdrawals = `Ξ ${Number(formatEther(stream.totalWithdrawals)).toFixed(2)}`;
-                const chainId = stream.chainId;
-
-                return [stream.id, name, address, start, buildersCount, withdrawalsCount, totalWithdrawals, chainId];
-              })}
-            />
-          )}
-        </div>
+              return [stream.id, name, address, start, buildersCount, withdrawalsCount, totalWithdrawals, chainId];
+            })}
+          />
+        )}
       </div>
     </section>
   );

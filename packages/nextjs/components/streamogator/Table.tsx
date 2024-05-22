@@ -23,10 +23,10 @@ interface TableProps {
 export const Table = ({ headers, rows, orderDirection, setOrderDirection, orderBy, hrefPrefix }: TableProps) => {
   const router = useRouter();
   return (
-    <div className="overflow-x-auto w-full border border-neutral-600 rounded-xl">
+    <div className="overflow-x-auto border border-neutral-600 rounded-xl flex">
       <table className="table text-lg">
         <thead>
-          <tr className="text-xl border-neutral-600 border-b">
+          <tr className="text-lg border-neutral-600 border-b">
             <th>
               <QuestionMarkCircleIcon className="w-6 h-6" />
             </th>
@@ -61,7 +61,7 @@ export const Table = ({ headers, rows, orderDirection, setOrderDirection, orderB
               onClick={() => router.push(`${hrefPrefix}/${row[0]}`)}
             >
               <td>
-                <div className="border border-base-200 p-1 rounded-lg hover:bg-primary hover:text-accent-content">
+                <div className="flex justify-center border border-base-200 p-1 rounded-lg hover:bg-primary hover:text-accent-content">
                   <EyeIcon className="w-5 h-5" />
                 </div>
               </td>

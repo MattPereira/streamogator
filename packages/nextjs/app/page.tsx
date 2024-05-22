@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { NextPage } from "next";
+import { PageTitle } from "~~/components/streamogator/";
 
 const PAGES = [
   {
@@ -31,15 +32,12 @@ const PAGES = [
 
 const Home: NextPage = () => {
   return (
-    <section className="flex justify-center px-10">
+    <section className="flex justify-center">
       <div className="flex flex-col justify-center items-center gap-14 my-14">
-        <div className="relative">
-          <div className="mt-2 absolute left-0 text-5xl">🐊</div>
-          <h1 className="text-6xl mb-0 font-paytone px-16">StreamoGator</h1>
-        </div>
-        <div className="text-2xl">
-          🕵️ Data analytics for all Buidl Guidl stream contracts deployed on Ethereum and Optimism
-        </div>
+        <PageTitle
+          title="StreamoGator"
+          description="🕵️ Data analytics for all Buidl Guidl stream cohorts deployed on Ethereum and Optimism"
+        />
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
           {PAGES.map(item => (
@@ -49,7 +47,7 @@ const Home: NextPage = () => {
               href={item.href}
               passHref
             >
-              <h3 className="text-4xl font-bold mb-10">{item.title}</h3>
+              <h3 className="text-4xl font-bold mb-7">{item.title}</h3>
               <div className="text-8xl mb-10">{item.emoji}</div>
               <p className="text-xl mb-0">{item.description}</p>
             </Link>

@@ -49,44 +49,40 @@ const BuilderDetails: NextPage<PageProps> = ({ params }) => {
   const { withdrawalsCount, totalWithdrawals, streamCap, streamContracts, date } = data.builder;
 
   return (
-    <section className="overflow-x-auto ">
-      <div className="flex justify-center ">
-        <div className="flex flex-col justify-center items-center gap-10 my-14 max-w-[1000px]">
-          <Address size="3xl" address={params.address} />
-
-          <StatsShowcase
-            data={[
-              { label: "Monthly Cap", value: customFormatEther(streamCap) },
-              { label: "Withdrawals", value: withdrawalsCount },
-              {
-                label: "Average",
-                value:
-                  withdrawalsCount > 0
-                    ? customFormatEther(BigInt(totalWithdrawals) / BigInt(withdrawalsCount))
-                    : "0.00",
-              },
-              {
-                label: "Total",
-                value: customFormatEther(totalWithdrawals),
-              },
-            ]}
-          />
-
-          <div className="text-2xl">
-            {streamContracts.map((contract: string) => streamDirectory[contract.toLowerCase()]?.name).join(", ")} since{" "}
-            {timestampToFormattedDate(date)}
-          </div>
-
-          <Withdrawals withdrawals={data?.withdrawals?.items} />
-        </div>
+    <section className="flex flex-col justify-center lg:items-center gap-10 my-14 text-center">
+      <div className="flex justify-center">
+        <Address size="3xl" address={params.address} />
       </div>
+
+      <StatsShowcase
+        data={[
+          { label: "Monthly Cap", value: customFormatEther(streamCap) },
+          { label: "Withdrawals", value: withdrawalsCount },
+          {
+            label: "Average",
+            value:
+              withdrawalsCount > 0 ? customFormatEther(BigInt(totalWithdrawals) / BigInt(withdrawalsCount)) : "0.00",
+          },
+          {
+            label: "Total",
+            value: customFormatEther(totalWithdrawals),
+          },
+        ]}
+      />
+
+      <div className="text-xl md:text-2xl">
+        {streamContracts.map((contract: string) => streamDirectory[contract.toLowerCase()]?.name).join(", ")} since{" "}
+        {timestampToFormattedDate(date)}
+      </div>
+
+      <Withdrawals withdrawals={data?.withdrawals?.items} />
     </section>
   );
 };
 
 const Withdrawals = ({ withdrawals }: { withdrawals: Withdrawal[] }) => {
   return (
-    <div>
+    <div className="max-w-[1000px]">
       <div className="overflow-x-auto w-full border border-neutral-600 rounded-xl">
         <table className="table text-xl">
           <thead>

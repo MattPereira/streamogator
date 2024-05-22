@@ -6,7 +6,7 @@ import { gql, useQuery } from "@apollo/client";
 import type { NextPage } from "next";
 import { formatEther } from "viem";
 import { Address } from "~~/components/scaffold-eth";
-import { SkeletonLoader, Table, TableControls } from "~~/components/streamogator";
+import { PageTitle, PaginationControls, SkeletonLoader, Table } from "~~/components/streamogator";
 import { type Builder } from "~~/types/streamogator";
 import { streamDirectory, timestampToIsoDate } from "~~/utils/helpers";
 
@@ -31,7 +31,7 @@ const BUILDERS = gql`
   }
 `;
 
-const BuilderTotals: NextPage = () => {
+const Builders: NextPage = () => {
   const [afterCursor, setAfterCursor] = useState<string | null>(null);
   const [cursorHistory, setCursorHistory] = useState<string[]>([]);
   const [orderDirection, setOrderDirection] = useState<"asc" | "desc">("desc");
@@ -87,67 +87,64 @@ const BuilderTotals: NextPage = () => {
   ];
 
   return (
-    <section className="flex justify-center">
-      <div className="flex flex-col justify-center items-center gap-10 my-14">
-        <div className="relative">
-          <div className="absolute left-0 text-5xl mt-1">🏗️</div>
-          <h1 className="text-6xl mb-0 font-paytone px-16">Builders</h1>
-        </div>
-        <div className="text-2xl">Sort by column name and select a builder to see their full details</div>
-
-        <div>
-          {loading ? (
-            <div className="w-[954px] h-[602px]">
-              <SkeletonLoader />
-            </div>
-          ) : (
-            <Table
-              setOrderDirection={toggleOrderDirection}
-              orderDirection={orderDirection}
-              orderBy={orderBy}
-              headers={headers}
-              hrefPrefix={"/builders/"}
-              rows={data.builders.items.map((builder: Builder) => {
-                const builderAddress = <Address disableAddressLink size="xl" address={builder.id} key={builder.id} />;
-                const startDate = timestampToIsoDate(builder.date);
-                const averageWithdrawalAmount =
-                  builder.withdrawalsCount > 0
-                    ? `Ξ ${Number(
-                        formatEther(BigInt(builder.totalWithdrawals) / BigInt(builder.withdrawalsCount)),
-                      ).toFixed(2)}`
-                    : "Ξ 0.00";
-                const streamCap = `Ξ ${Number(formatEther(builder.streamCap)).toFixed(2)}`;
-                const totalWithdrawals = `Ξ ${Number(formatEther(builder.totalWithdrawals)).toFixed(2)}`;
-                const streamContracts = builder.streamContracts
-                  .map(contract => streamDirectory[contract.toLowerCase()]?.name)
-                  .join(", ");
-                return [
-                  builder.id,
-                  builderAddress,
-                  startDate,
-                  builder.withdrawalsCount,
-                  averageWithdrawalAmount,
-                  totalWithdrawals,
-                  streamCap,
-                  streamContracts || "N/A",
-                  ,
-                ];
-              })}
-            />
-          )}
-
-          <TableControls
-            limit={limit}
-            setLimit={setLimit}
-            loadPreviousItems={loadPreviousItems}
-            loadNextItems={loadNextItems}
-            cursorHistory={cursorHistory}
-            hasNextPage={data?.builders?.pageInfo?.hasNextPage}
+    <section className="flex flex-col justify-center lg:items-center gap-10 my-14">
+      <PageTitle
+        title="Builders"
+        emoji="🏗️"
+        description="Sort by column name and select a builder to see the full details"
+      />
+      <div className="max-w-[1111px]">
+        {loading ? (
+          <div className="w-[1109px] h-[602px]">
+            <SkeletonLoader />
+          </div>
+        ) : (
+          <Table
+            setOrderDirection={toggleOrderDirection}
+            orderDirection={orderDirection}
+            orderBy={orderBy}
+            headers={headers}
+            hrefPrefix={"/builders/"}
+            rows={data.builders.items.map((builder: Builder) => {
+              const builderAddress = <Address disableAddressLink size="xl" address={builder.id} key={builder.id} />;
+              const startDate = timestampToIsoDate(builder.date);
+              const averageWithdrawalAmount =
+                builder.withdrawalsCount > 0
+                  ? `Ξ ${Number(
+                      formatEther(BigInt(builder.totalWithdrawals) / BigInt(builder.withdrawalsCount)),
+                    ).toFixed(2)}`
+                  : "Ξ 0.00";
+              const streamCap = `Ξ ${Number(formatEther(builder.streamCap)).toFixed(2)}`;
+              const totalWithdrawals = `Ξ ${Number(formatEther(builder.totalWithdrawals)).toFixed(2)}`;
+              const streamContracts = builder.streamContracts
+                .map(contract => streamDirectory[contract.toLowerCase()]?.name)
+                .join(", ");
+              return [
+                builder.id,
+                builderAddress,
+                startDate,
+                builder.withdrawalsCount,
+                averageWithdrawalAmount,
+                totalWithdrawals,
+                streamCap,
+                streamContracts || "N/A",
+                ,
+              ];
+            })}
           />
-        </div>
+        )}
+
+        <PaginationControls
+          limit={limit}
+          setLimit={setLimit}
+          loadPreviousItems={loadPreviousItems}
+          loadNextItems={loadNextItems}
+          cursorHistory={cursorHistory}
+          hasNextPage={data?.builders?.pageInfo?.hasNextPage}
+        />
       </div>
     </section>
   );
 };
 
-export default BuilderTotals;
+export default Builders;

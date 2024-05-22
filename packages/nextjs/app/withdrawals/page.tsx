@@ -5,7 +5,7 @@ import { useState } from "react";
 import { gql, useQuery } from "@apollo/client";
 import type { NextPage } from "next";
 import { Address } from "~~/components/scaffold-eth";
-import { SkeletonLoader, Table, TableControls } from "~~/components/streamogator";
+import { PageTitle, PaginationControls, SkeletonLoader, Table } from "~~/components/streamogator";
 import { type Withdrawal } from "~~/types/streamogator";
 import { customFormatEther, streamDirectory, timestampToIsoDate } from "~~/utils/helpers";
 
@@ -81,58 +81,56 @@ const Withdrawals: NextPage = () => {
   };
 
   const headers = [
-    { label: "Builder", key: "to", isSortable: true },
-    { label: "Date", key: "date", isSortable: true },
-    { label: "Amount", key: "amount", isSortable: true },
-    { label: "Stream", key: "streamContract", isSortable: true },
-    { label: "Chain", key: "network", isSortable: true },
+    { label: "Builder", key: "to", isSortable: true, showMobile: true },
+    { label: "Date", key: "date", isSortable: true, showMobile: true },
+    { label: "Amount", key: "amount", isSortable: true, showMobile: true },
+    { label: "Stream", key: "streamContract", isSortable: true, showMobile: false },
+    { label: "Chain", key: "network", isSortable: true, showMobile: false },
   ];
 
   return (
-    <section className="flex justify-center">
-      <div className="flex flex-col justify-center items-center gap-10 my-14">
-        <div className="relative">
-          <div className="mt-2 absolute left-0 text-5xl">💰</div>
-          <h1 className="text-6xl mb-0 font-paytone px-16">Withdrawals</h1>
-        </div>
-        <div className="text-2xl">Sort by column name and select a withdrawal to see the full details</div>
+    <section className="flex flex-col justify-center lg:items-center gap-10 my-14">
+      <PageTitle
+        title="Withdrawals"
+        emoji="💰"
+        description="Sort by column name and select a withdrawal to see the full details"
+      />
 
-        <div>
-          {loading ? (
-            <div className="w-[1052px] h-[602px]">
-              <SkeletonLoader />
-            </div>
-          ) : (
-            <Table
-              setOrderDirection={toggleOrderDirection}
-              orderDirection={orderDirection}
-              orderBy={orderBy}
-              headers={headers}
-              hrefPrefix="/withdrawals/"
-              rows={data.withdrawals.items.map((withdrawal: Withdrawal) => {
-                const builder = <Address size="xl" disableAddressLink address={withdrawal.to} key={withdrawal.id} />;
-                const date = timestampToIsoDate(withdrawal.date);
-                const amount = customFormatEther(withdrawal.amount);
-                const id = withdrawal.id;
-                const stream = streamDirectory[withdrawal.streamContract]?.name || "N/A";
-                const chain = withdrawal.chainId;
+      <div className="max-w-[1111px]">
+        {loading ? (
+          <div className="min-w-[828px] h-[602px]">
+            <SkeletonLoader />
+          </div>
+        ) : (
+          <Table
+            setOrderDirection={toggleOrderDirection}
+            orderDirection={orderDirection}
+            orderBy={orderBy}
+            headers={headers}
+            hrefPrefix="/withdrawals/"
+            rows={data.withdrawals.items.map((withdrawal: Withdrawal) => {
+              const builder = <Address size="xl" disableAddressLink address={withdrawal.to} key={withdrawal.id} />;
+              const date = timestampToIsoDate(withdrawal.date);
+              const amount = customFormatEther(withdrawal.amount);
+              const id = withdrawal.id;
+              const stream = streamDirectory[withdrawal.streamContract]?.name || "N/A";
+              const chain = withdrawal.chainId;
 
-                // id is not displayed (only used for details page link)
-                // must match the order from headers
-                return [id, builder, date, amount, stream, chain];
-              })}
-            />
-          )}
-
-          <TableControls
-            limit={limit}
-            setLimit={setLimit}
-            loadPreviousItems={loadPreviousItems}
-            loadNextItems={loadNextItems}
-            cursorHistory={cursorHistory}
-            hasNextPage={pageInfo?.hasNextPage}
+              // id is not displayed (only used for details page link)
+              // must match the order from headers
+              return [id, builder, date, amount, stream, chain];
+            })}
           />
-        </div>
+        )}
+
+        <PaginationControls
+          limit={limit}
+          setLimit={setLimit}
+          loadPreviousItems={loadPreviousItems}
+          loadNextItems={loadNextItems}
+          cursorHistory={cursorHistory}
+          hasNextPage={pageInfo?.hasNextPage}
+        />
       </div>
     </section>
   );

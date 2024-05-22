@@ -1,6 +1,6 @@
 import { ArrowLongLeftIcon, ArrowLongRightIcon } from "@heroicons/react/24/outline";
 
-interface TableControlsProps {
+interface PaginationControlsProps {
   limit: number;
   setLimit: (limit: number) => void;
   loadPreviousItems: () => void;
@@ -9,7 +9,7 @@ interface TableControlsProps {
   hasNextPage: boolean;
 }
 
-export const TableControls: React.FC<TableControlsProps> = ({
+export const PaginationControls: React.FC<PaginationControlsProps> = ({
   limit,
   setLimit,
   loadPreviousItems,
@@ -18,7 +18,7 @@ export const TableControls: React.FC<TableControlsProps> = ({
   hasNextPage,
 }) => {
   return (
-    <div className="flex justify-between gap-5 w-full items-center mt-4 px-1">
+    <div className="flex flex-wrap justify-center sm:justify-between gap-5 w-full items-center mt-4 px-1">
       <div className="flex items-center gap-3">
         Show{" "}
         <div>

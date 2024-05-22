@@ -69,7 +69,7 @@ const ChartDisplay = ({ data }: { data: any }) => {
   const labels = data.streams.items.map((stream: any) => stream.name);
 
   return (
-    <div className="w-[888px]">
+    <div className="w-[333px] lg:w-[888px]">
       <div className="mb-10">
         <Bar
           options={options}

@@ -65,35 +65,27 @@ const StreamDetails: NextPage<PageProps> = ({ params }) => {
   if (error) return <div className="text-red-500 text-center my-10">Error : {error.message}</div>;
 
   return (
-    <section className="overflow-x-auto ">
-      <div className="flex justify-center ">
-        <div className="flex flex-col justify-center items-center gap-10 my-14 max-w-[1000px]">
-          <div className="flex flex-col justify-center items-center gap-3">
-            <div className="text-5xl font-paytone">{data.stream.name}</div>
-          </div>
+    <section className="flex flex-col justify-center lg:items-center gap-10 my-14 text-center">
+      <div className="text-4xl md:text-5xl font-paytone">{data.stream.name}</div>
+      <StatsShowcase
+        data={[
+          { label: "Builders", value: data.stream.buildersCount },
+          { label: "Withdrawals", value: data.stream.withdrawalsCount },
+          { label: "Total", value: customFormatEther(data.stream.totalWithdrawals) },
+        ]}
+      />
 
-          <StatsShowcase
-            data={[
-              { label: "Builders", value: data.stream.buildersCount },
-              { label: "Withdrawals", value: data.stream.withdrawalsCount },
-              { label: "Total", value: customFormatEther(data.stream.totalWithdrawals) },
-            ]}
-          />
-
-          <div className="flex flex-wrap gap-2 text-2xl">
-            <Address size="2xl" address={params.address} /> deployed on{" "}
-            {timestampToFormattedDate(data.stream.timestamp)}
-          </div>
-          <Withdrawals withdrawals={data?.withdrawals?.items} />
-        </div>
+      <div className="flex flex-wrap justify-center gap-2 text-2xl">
+        <Address size="2xl" address={params.address} /> deployed on {timestampToFormattedDate(data.stream.timestamp)}
       </div>
+      <Withdrawals withdrawals={data?.withdrawals?.items} />
     </section>
   );
 };
 
 const Withdrawals = ({ withdrawals }: { withdrawals: Withdrawal[] }) => {
   return (
-    <div>
+    <div className="max-w-[1000px]">
       <div className="overflow-x-auto w-full border border-neutral-600 rounded-xl">
         <table className="table text-xl">
           <thead>

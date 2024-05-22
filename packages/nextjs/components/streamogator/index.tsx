@@ -1,4 +1,5 @@
 export * from "./SkeletonLoader";
 export * from "./Table";
-export * from "./TableControls";
+export * from "./PaginationControls";
 export * from "./StatsShowcase";
+export * from "./PageTitle";

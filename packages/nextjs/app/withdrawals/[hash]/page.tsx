@@ -4,6 +4,7 @@ import { gql, useQuery } from "@apollo/client";
 import type { NextPage } from "next";
 import { Address } from "~~/components/scaffold-eth";
 import { SkeletonLoader } from "~~/components/streamogator";
+import { PageTitle } from "~~/components/streamogator";
 import { abbreviateHex, customFormatEther, timestampToIsoDate } from "~~/utils/helpers";
 
 const WITHDRAWAL = gql`
@@ -41,38 +42,32 @@ const WithdrawalDetails: NextPage<PageProps> = ({ params }) => {
   );
 
   return (
-    <section className="overflow-x-auto ">
-      <div className="flex justify-center ">
-        <div className="flex flex-col justify-center items-center gap-10 my-14 max-w-[1000px]">
-          <div className="relative">
-            <div className="mt-1 absolute left-0 text-4xl">🧾</div>
-            <h1 className="text-5xl mb-0 font-paytone px-12">Withdrawal</h1>
-          </div>
+    <section className="flex flex-col justify-center lg:items-center gap-10 my-14">
+      <PageTitle title="Withdrawal" emoji="🧾" description="Review all relevant details for the withdrawal" />
 
-          <div className="overflow-x-auto w-full border border-neutral-600 rounded-xl">
-            <table className="table text-xl">
-              <tbody>
-                {[
-                  { label: "Date", value: loading ? skeleton : timestampToIsoDate(data?.withdrawal?.date) },
-                  {
-                    label: "From",
-                    value: loading ? skeleton : <Address size="xl" address={data?.withdrawal?.streamContract} />,
-                  },
-                  { label: "To", value: loading ? skeleton : <Address size="xl" address={data?.withdrawal?.to} /> },
-                  { label: "Amount", value: loading ? skeleton : `${customFormatEther(data?.withdrawal?.amount)} ETH` },
-                  { label: "ChainId", value: loading ? skeleton : data?.withdrawal?.chainId },
-                  { label: "Tx Hash", value: loading ? skeleton : abbreviateHex(data?.withdrawal?.id) },
-                  { label: "Reason", value: loading ? skeleton : data?.withdrawal?.reason },
-                ].map((item, index) => (
-                  <tr key={index}>
-                    <th>{item.label}:</th>
-                    <td>{item.value}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
+      <div className="overflow-x-auto w-full border border-neutral-600 rounded-xl max-w-[750px]">
+        <table className="table text-xl">
+          <tbody>
+            {[
+              { label: "Amount", value: loading ? skeleton : `${customFormatEther(data?.withdrawal?.amount)} ETH` },
+
+              {
+                label: "From",
+                value: loading ? skeleton : <Address size="xl" address={data?.withdrawal?.streamContract} />,
+              },
+              { label: "To", value: loading ? skeleton : <Address size="xl" address={data?.withdrawal?.to} /> },
+              { label: "Date", value: loading ? skeleton : timestampToIsoDate(data?.withdrawal?.date) },
+              { label: "ChainId", value: loading ? skeleton : data?.withdrawal?.chainId },
+              { label: "Tx Hash", value: loading ? skeleton : abbreviateHex(data?.withdrawal?.id) },
+              { label: "Reason", value: loading ? skeleton : data?.withdrawal?.reason },
+            ].map((item, index) => (
+              <tr key={index}>
+                <th>{item.label}:</th>
+                <td>{item.value}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </section>
   );
