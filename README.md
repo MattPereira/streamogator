@@ -1,6 +1,15 @@
 # 🐊 StreamoGator
 
-Data analytics for all Buidl Guidl stream contracts deployed on Ethereum and Optimism.
+Data indexing for all Buidl Guidl stream cohort contracts deployed on Ethereum and Optimism using Ponder framework to create a GraphQL server and PSQL database. The front-end uses Apollo Client to fetch, paginate, and sort data.
+
+## 🛣️ Roadmap
+
+- [x] Click on a table row to see full details for a single transaction, builder, and stream
+- [ ] Search functionality with input that accepts ENS and hex address
+- [ ] Add all the solo stream contracts for full data set
+- [ ] Sort withdrawals by gas used
+- [ ] Sort builders by total gas spent
+- [ ] Show ETH balance in each contract
 
 ## 🏁 Getting Started
 
@@ -34,10 +43,3 @@ yarn ponder:dev
 ```bash
 yarn start
 ```
-
-## 🛣️ Roadmap
-
-- Click on a table row to see full details for transaction or builder in a modal pop up or details page
-- Sort withdrawals by gas used
-- Sort builders by total gas spent
-- Show amount of ETH in each contract
