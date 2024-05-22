@@ -2,6 +2,8 @@
 
 Data indexing for all Buidl Guidl stream cohort contracts deployed on Ethereum and Optimism using Ponder framework to create a GraphQL server and PSQL database. The front-end uses Apollo Client to fetch, paginate, and sort data.
 
+![thumbnail](https://github.com/MattPereira/streamogator/assets/73561520/4c438a0a-c226-43da-8c64-ef53296f1c14)
+
 ## 🛣️ Roadmap
 
 - [x] Click on a table row to see full details for a single transaction, builder, and stream
