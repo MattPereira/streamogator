@@ -11,7 +11,7 @@ const imageUrl = `${baseUrl}/thumbnail.jpg`;
 
 const title = "Streamogator";
 const titleTemplate = "%s | Scaffold-ETH 2";
-const description = "Data analytics for all Buidl Guidl stream contracts";
+const description = "Aggregate data for all Buidl Guidl cohort streams deployed on Ethereum and Optimism";
 
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
