@@ -9,7 +9,7 @@ module.exports = {
     themes: [
       {
         light: {
-          primary: "#0ba95b",
+          primary: "#2b79a2",
           "primary-content": "#ffffff",
           secondary: "#e0e0da",
           "secondary-content": "#ffffff",
@@ -18,8 +18,8 @@ module.exports = {
           neutral: "#3b2e2a",
           "neutral-content": "#9d7dce",
           "base-100": "#ffffff",
-          "base-200": "#e7e5e4",
-          "base-300": "#f7f7f7",
+          "base-200": "#F0F0ED",
+          "base-300": "#e0e0da",
           "base-content": "#231f20",
           info: "#12b5e5",
           success: "#0ba95b",
