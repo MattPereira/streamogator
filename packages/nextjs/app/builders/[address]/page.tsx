@@ -17,7 +17,7 @@ const BUILDER = gql`
       totalWithdrawals
       withdrawalsCount
     }
-    withdrawals(where: { to: $id }) {
+    withdrawals(where: { to: $id }, orderBy: "date", orderDirection: "desc") {
       items {
         amount
         chainId
